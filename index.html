@@ -8,17 +8,20 @@
 </head>
 <body>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <div id="app"></div>
+    <div id="app">
+      
+    </div>
 <script>
   const vm = Vue.createApp({
     data() {
       return {
-        text: '<p>hola mundo!</p>'
+        attr: "src",
+        img: "https://www.fundaciontelefonica.com/wp-content/uploads/2022/09/portada-dia-programador-2560x950-1.jpg"
       };
     },
-    template: `<div v-html='text'></div>`
-  }).mount('#app');
+    template: `<img v-bind:[attr]="img" > ` 
+},).mount('#app');s
   console.log(vm);
-    </script>
+</script>
 </body>
 </html>

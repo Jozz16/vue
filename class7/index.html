@@ -10,10 +10,35 @@
 <body>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <div id="app">
-
+        <div class="container" :class="{'open' : open, 'closed' : !open }">
+            <h2>{{Text}}</h2>
+            <div v-if = "open">
+                <p>
+                    Hola {{username}}
+                </p>
+                    <div class="list">
+                        <div v-for="(item, i) in posts" :key="i" class="item"> 
+                            <h4 class="tittle"> {{item.title}}</h4>
+                            <p> {{item.description}}</p>
+                        </div>   
+                    </div>
+            </div>
+            <div v-else>
+                <div>Username</div>
+                    <input type = "text" v-model = "username">
+                </div>  
+            <button @click="open = !open">
+                <div v-if="!open"> 
+                    Acceder
+                </div>
+                <div v-if = "open"> 
+                    Salir
+                </div>
+            </button>
+        </div>
     </div>
     <script>
-        const vm = Vue.createApp({
+        const app= Vue.createApp({
             data() {
                 return {
                     Text: "Puerta cerrada",
@@ -50,30 +75,48 @@
                     return this.open ? "cerrar" : "abrir"
                 }
             },
-            template: ` 
-            <div class="container" :class="{'open' : open, 'closed' : !open }">
-                <h2>{{Text}}</h2>
-                <div v-if = "open">
-                    <p>Hola {{username}}</p>
-                        <div class="list">
-                            <div v-for="(item, i) in posts" :key="i" class="item"> 
-                                <h4 class="tittle"> {{item.title}}</h4>
-                                <p> {{item.description}}</p>
-                            </div>   
-                        </div>
-                </div>
-                <div v-else>
-                    <div>Username</div>
-                        <input type = "text" v-model = "username">
+            template:  ` <div class="container" :class="{'open' : open, 'closed' : !open }">
+            <h2>{{Text}}</h2>
+            <div v-if = "open">
+                <p>
+                    Hola {{username}}
+                </p>
+                    <div class="list">
+                       <item 
+                            v-for="(item, i) in posts" 
+                            :key="i"
+                            :post="item"
+                       />  
                     </div>
-                    
-                <button @click="open = !open">
-                    <div v-if="!open"> Acceder</div>
-                    <div v-if = "open"> Salir</div>
-                    </button>
             </div>
-                        `
-                    },).mount('#app');
+            <div v-else>
+                <div>Username</div>
+                    <input type = "text" v-model = "username">
+                </div>  
+            <button @click="open = !open">
+                <div v-if="!open"> 
+                    Acceder
+                </div>
+                <div v-if = "open"> 
+                    Salir
+                </div>
+            </button>
+        </div> `
+        },)
+        
+        app.component("item", {
+            props:["post"],
+            template:  `
+                    <div class="item"> 
+                        <h4 class="tittle"> {{post.title}}</h4>
+                        <p> {{post.description}}</p>
+                    </div> 
+            `
+        })
+        
+
+
+        const vm = app.mount('#app');
         console.log(vm);
         </script>
     
